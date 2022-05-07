@@ -5,6 +5,10 @@ import "flatpickr/dist/flatpickr.min.css";
 
 const refs = {
     startButton: document.querySelector('[data-start]'),
+    day: document.querySelector('[data-days]'),
+    hours: document.querySelector('[data-hours]'),
+    minutes: document.querySelector('[data-minutes]'),
+    seconds: document.querySelector('[data-seconds]'),
 };
 
 refs.startButton.setAttribute('disabled', 'true');
@@ -43,8 +47,9 @@ const timer = {
         setInterval(() => {
             const startTime = Date.now();
             const deltaTime = curentTime - startTime
-            const { days, hours, minutes, seconds } = convertMs(deltaTime)
-            console.log({ days, hours, minutes, seconds });
+            const time = convertMs(deltaTime)
+            // console.log({ days, hours, minutes, seconds });
+            updateClockFace(time)
         }, 1000)
     },
 };
@@ -55,7 +60,12 @@ function onStartBtnClick() {
     timer.start();
 }
 
-
+function updateClockFace({ days, hours, minutes, seconds }) {
+    refs.day.textContent = `${days}`;
+    refs.hours.textContent = `${hours}`;
+    refs.minutes.textContent = `${minutes}`;
+    refs.seconds.textContent = `${seconds}`;
+}
 
 
 function pad(value) {
