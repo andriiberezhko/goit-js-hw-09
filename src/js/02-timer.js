@@ -6,6 +6,7 @@ import "notiflix/dist/notiflix-3.2.5.min.css";
 import "flatpickr/dist/flatpickr.min.css";
 
 const refs = {
+    input: document.querySelector('input#datetime-picker'),
     startButton: document.querySelector('[data-start]'),
     day: document.querySelector('[data-days]'),
     hours: document.querySelector('[data-hours]'),
@@ -14,6 +15,7 @@ const refs = {
 };
 
 refs.startButton.setAttribute('disabled', 'true');
+refs.input.removeAttribute('disabled');
 
 class Timer {
     constructor({onTick}) {
@@ -72,7 +74,7 @@ class Timer {
        
      return { days, hours, minutes, seconds };
 }
-}
+};
 
 
 const options = {
@@ -91,6 +93,7 @@ const options = {
           return;
       };
       refs.startButton.removeAttribute('disabled');
+    
       
   },
 };
@@ -101,7 +104,14 @@ const fp = flatpickr('input#datetime-picker', options);
 
 const timer = new Timer({ onTick: updateClockFace });
 
-refs.startButton.addEventListener('click', timer.start.bind(timer));
+refs.startButton.addEventListener('click', onStartButtonClick);
+
+function onStartButtonClick() {
+    timer.start();
+    refs.startButton.setAttribute('disabled', 'true');
+    refs.input.setAttribute('disabled', 'true');
+    
+};
 
 
 function updateClockFace({ days, hours, minutes, seconds }) {
